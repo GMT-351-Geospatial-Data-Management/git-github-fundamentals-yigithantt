@@ -1,12 +1,16 @@
 const express = require('express')
 
+const bodyParser = require('body-parser')
+
 const indexRouter = require('./routes/index')
 const eventsRouter = require('./routes/events')
 const communitiesRouter = require('./routes/communities')
 
-const pool = require('./database-connection')
-
 const app = express()
+
+app.use(bodyParser.json())
+
+app.set('view engine', 'pug')
 
 app.use('/', indexRouter)
 app.use('/events', eventsRouter)
