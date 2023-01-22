@@ -10,6 +10,8 @@ const app = express()
 
 app.use(bodyParser.json())
 
+app.use('/', express.static('static'))
+
 app.set('view engine', 'pug')
 
 app.use('/', indexRouter)

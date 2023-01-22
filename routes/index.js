@@ -3,24 +3,27 @@ const router = require('express').Router()
 const pool = require('../database-connection')
 
 router.get('/', (req, res) => {
-    const fillObject = { 
-        communities: [],
-        events: []
-    }
+    let communities = []
+    let events = []
+
+    let obj = {}
 
     pool.query(`select * from communities`, (err, dbRes) => {
         dbRes.rows.forEach(element => {
-            fillObject.communities.push(element)
+            communities.push(element)
         });
+
+        pool.query(`select * from events`, (err, dbRes) => {
+            dbRes.rows.forEach(element => {
+                events.push(element)
+            });
+
+            res.render('index', {communities, events})    
+        })    
     })
     
-    pool.query(`select * from events`, (err, dbRes) => {
-        dbRes.rows.forEach(element => {
-            fillObject.events.push(element)
-        });
-    })
 
-    res.status(200).send(fillObject)
+
 })
 
 module.exports = router
