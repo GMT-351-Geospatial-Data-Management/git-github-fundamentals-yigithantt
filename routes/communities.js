@@ -32,4 +32,19 @@ router.patch('/:id', async (req, res) => {
     })
 })
 
+router.delete('/:id', async (req, res) => {
+    const {id} = req.params
+    const {name} = req.body
+    pool.query(`DELETE FROM communities WHERE id=$1`, [id], null)
+
+    pool.query(`DELETE FROM events WHERE commid=$1`, [id], (err, dbRes) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+    })
+
+    res.status(200).send({ status: "ok"})
+})
+
 module.exports = router
