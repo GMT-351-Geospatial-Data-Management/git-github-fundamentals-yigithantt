@@ -18,4 +18,18 @@ router.post('/', async (req, res) => {
     })
 })
 
+router.patch('/:id', async (req, res) => {
+    const {id} = req.params
+    const {name} = req.body
+    pool.query(`DELETE FROM communities WHERE id=$1`, [id], null)
+
+    pool.query(`insert into communities (name) VALUES ($1)`, [name], (err, dbRes) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        res.status(200).send(dbRes)
+    })
+})
+
 module.exports = router
