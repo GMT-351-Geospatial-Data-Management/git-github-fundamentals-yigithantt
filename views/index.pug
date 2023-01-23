@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title University Communinities
+    style.
+      body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;}
+
+  body
+    h1 Hi! Welcome to University Communinities
+
+    h2 Communities
+    p There are #{communities.length} communities in the university. 
+        a(id=`new_community` href=`#`, onclick=`toggleDisplay("community_add")`) Add new Community
+        div(id=`community_add` style=`display: none`)
+            input(type="text" id=`add_community_name`)
+            a(id=`add_community` href=`#` onclick=`addCommunity()`) Add 
+
+    ol
+        if communities.length
+            each community in communities
+                li
+                    p #{community.name}
+                        |
+                        br
+                        a(id=`delete_comm_${community.id}` href=`#` onclick=`communityDelete(${community.id})`) Delete 
+                        br
+                        div(id=`community_update_${community.id}` style=`display: none`)
+                            input(type="text" id=`community_name_${community.id}`)
+                            a(id=`send_community_${community.id}` href=`#`) Send 
+
+    hl
+
+    h2 Events
+    p There are #{events.length} active events in the university. 
+        a(id=`new_event` href=`#`, onclick=`toggleDisplay("event_add")`) Add new event 
+        div(id=`event_add` style=`display: none`)
+            span Description
+            |
+            input(type="text" id=`add_event_description`)
+            span Event Time
+            |
+            input(type="text" id=`add_event_eventtime`)
+            span Community
+            |
+            select(id=`add_event_community`)
+                each community in communities
+                    option(value=community.id) #{community.name}
+
+            a(id=`add_community` href=`#` onclick=`addEvent()`) Add 
+
+
+    ol
+        if events.length
+            each event in events
+                li
+                    p 
+                        | #{event.description}
+                        span(style="font-size: 11px")  #{event.eventtime}
+                        br
+                        a(id=`delete_event_${event.id}` href=`#` onclick=`eventDelete(${event.id})`) Delete 
+                        a(id=`delete_event_${event.id}` href=`#` onclick=`toggleDisplay("event_update_${event.id}")`) Update
+                        br
+                        div(id=`event_update_${event.id}` style=`display: none`)
+                            input(type="text" id=`event_description_${event.id}`)
+                            input(type="text" id=`event_time_${event.id}`)
+                            a(id=`send_event_${event.id}` href=`#` onclick=`updateEvent(${event.id}, ${event.commid})`) Send 
+
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="test.js")
